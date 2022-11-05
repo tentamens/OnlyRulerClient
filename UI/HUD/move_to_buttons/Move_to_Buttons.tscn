@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://UI/HUD/move_to_buttons/knight_pos.png" type="Texture" id=1]
+[ext_resource path="res://UI/HUD/move_to_buttons/knight_pos_pressed.png" type="Texture" id=2]
+[ext_resource path="res://players/archer/sprite/invis_button.png" type="Texture" id=3]
+[ext_resource path="res://players/archer/sprite/target.png" type="Texture" id=4]
+[ext_resource path="res://UI/HUD/move_to_buttons/target.gd" type="Script" id=5]
+
+[node name="Move_start_Buttons" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 944.0
+margin_top = 410.0
+margin_right = 976.0
+margin_bottom = 450.0
+rect_scale = Vector2( 2.02365, 2.02365 )
+
+[node name="Ground_trops" type="TextureButton" parent="VBoxContainer"]
+margin_right = 32.0
+margin_bottom = 32.0
+texture_normal = ExtResource( 1 )
+texture_pressed = ExtResource( 2 )
+
+[node name="target" type="Node2D" parent="VBoxContainer/Ground_trops"]
+z_index = 52
+script = ExtResource( 5 )
+
+[node name="Top_button" type="TouchScreenButton" parent="VBoxContainer/Ground_trops/target"]
+position = Vector2( 221, -146 )
+scale = Vector2( 4.48553, 2.9115 )
+normal = ExtResource( 3 )
+
+[node name="target" type="Sprite" parent="VBoxContainer/Ground_trops/target"]
+visible = false
+position = Vector2( 40.4007, 40.4007 )
+rotation = -0.785397
+scale = Vector2( 1.47496, 1.47496 )
+texture = ExtResource( 4 )
+
+[connection signal="button_down" from="VBoxContainer/Ground_trops" to="VBoxContainer/Ground_trops/target" method="_on_Ground_trops_button_down"]
+[connection signal="button_up" from="VBoxContainer/Ground_trops" to="VBoxContainer/Ground_trops/target" method="_on_Ground_trops_button_up"]
+[connection signal="pressed" from="VBoxContainer/Ground_trops/target/Top_button" to="VBoxContainer/Ground_trops/target" method="_on_Top_button_pressed"]
+[connection signal="released" from="VBoxContainer/Ground_trops/target/Top_button" to="VBoxContainer/Ground_trops/target" method="_on_Top_button_released"]

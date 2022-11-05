@@ -1,0 +1,86 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://UI/Background_nav.gd" type="Script" id=1]
+[ext_resource path="res://world/grass.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/UI_background/Start_button.png" type="Texture" id=3]
+[ext_resource path="res://players/knight/knight_background/Knight_background.tscn" type="PackedScene" id=4]
+[ext_resource path="res://UI/UI_background/Ui_background.gd" type="Script" id=5]
+[ext_resource path="res://UI/Login_Screen/LoginScreen.tscn" type="PackedScene" id=6]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 1054, -31, 1034, 611, -50, 605, -44, -56 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( 1054, -31, 1034, 611, -50, 605, -44, -56 ) ]
+
+[sub_resource type="Environment" id=2]
+background_mode = 4
+glow_enabled = true
+glow_intensity = 1.22
+glow_strength = 0.87
+glow_bloom = 0.33
+glow_bicubic_upscale = true
+glow_high_quality = true
+
+[node name="Ui_background" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="Navigation2D" type="Navigation2D" parent="."]
+script = ExtResource( 1 )
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
+position = Vector2( 0, -2 )
+navpoly = SubResource( 1 )
+
+[node name="grass" parent="." instance=ExtResource( 2 )]
+position = Vector2( 110, 54 )
+scale = Vector2( 0.860873, 0.860873 )
+
+[node name="Knights" type="Node2D" parent="."]
+
+[node name="Knight_background" parent="Knights" instance=ExtResource( 4 )]
+position = Vector2( 137, 61 )
+
+[node name="Knight_background2" parent="Knights" instance=ExtResource( 4 )]
+position = Vector2( 813, 450 )
+
+[node name="Knight_background3" parent="Knights" instance=ExtResource( 4 )]
+position = Vector2( 169, 475 )
+
+[node name="Knight_background4" parent="Knights" instance=ExtResource( 4 )]
+position = Vector2( 855, 64 )
+
+[node name="Knight_background5" parent="Knights" instance=ExtResource( 4 )]
+position = Vector2( 335, 369 )
+
+[node name="Knight_background6" parent="Knights" instance=ExtResource( 4 )]
+position = Vector2( 538, 196 )
+
+[node name="Knight_background7" parent="Knights" instance=ExtResource( 4 )]
+position = Vector2( 829, 235 )
+
+[node name="Position2D" type="Position2D" parent="."]
+
+[node name="Position2D2" type="Position2D" parent="."]
+position = Vector2( 4, 571 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = -466.0
+margin_top = -7.0
+margin_right = 236.0
+margin_bottom = 468.0
+
+[node name="TextureButton" type="TextureButton" parent="VBoxContainer"]
+margin_right = 702.0
+margin_bottom = 475.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 3 )
+expand = true
+stretch_mode = 4
+
+[node name="GUI" parent="." instance=ExtResource( 6 )]
+
+[connection signal="button_down" from="VBoxContainer/TextureButton" to="." method="_on_TextureButton_button_down"]
