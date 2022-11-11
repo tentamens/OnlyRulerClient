@@ -24,6 +24,7 @@ var path = []
 var threshold = 16
 var velocity = Vector2.ZERO
 var touch_pos
+var new_pos = false
 
 var Shoot_timer
 var damage
@@ -122,23 +123,10 @@ func _on_Damage_tick_timeout():
 
 
 func _on_TouchScreenButton_pressed():
-	# checks if it a double press or not
-	if double_tap == 1:
-		dragged = true
-		double_tap += 1
-		return
 	double_tap += 1
 	
 	get_node("Targeting_timer").start()
-	
-	Nav.the_group.clear()
-	Nav.the_group.insert(0,self)
-	get_tree().get_nodes_in_group("Targeting")[0].move_units_down()
-	
-	var group_name = "Knight"
-	var selected_node = self
-	
-	Nav.select_nodes(group_name, selected_node, all_touching)
+	get_node("Movement_timer").start()
 
 
 func new_target_des():
@@ -164,11 +152,14 @@ func checkNearby(group_nodes, the_group):
 
 """  Checks if it gonna be a position update or a targeting """
 func _on_TouchScreenButton_released():
-		if double_tap == 2:
-			Project.catapult_target = touch_pos
-			return
-		get_tree().get_nodes_in_group("Targeting")[0].move_units_up()
+	print(double_tap)
+	if double_tap == 2:
+		get_node("Targeting_timer").stop()
+		highlight_catapults()
+		new_pos = true
 		double_tap = 0
+		return
+	get_tree().get_nodes_in_group("Targeting")[0].move_units_up()
 
 
 
@@ -183,7 +174,7 @@ func update_Destination(touch_pos):
 
 
 """  Tells all the Catapults to Highlight themselves  """
-func change_projectile_target():
+func highlight_catapults():
 	for x in get_tree().get_nodes_in_group("Catapult"):
 		x.show_shader()
 
@@ -202,20 +193,49 @@ func show_shader():
 
 
 func _on_Targeting_timer_timeout():
+	print("took to long")
 	double_tap = 0
 	dragged = true
 
 
 func _on_Shoot_timer_timeout():
-	print("Trying to shoot")
 	if walking == false:
 		shoot()
 
 
 func shoot():
-	if Project.catapult_target == null:
-		pass
-	Project.main.shoot_Catapult(self.position)
+	animation_player.play("Fire")
+	print("fire")
+	get_node("Shoot_timer").queue_free()
 
 
 
+
+
+
+func _on_Movement_timer_timeout():
+	if get_node("TouchScreenButton").is_pressed():
+		Nav.the_group.clear()
+		Nav.the_group.insert(0,self)
+		get_tree().get_nodes_in_group("Targeting")[0].move_units_down()
+	
+		var group_name = "Knight"
+		var selected_node = self
+	
+		Nav.select_nodes(group_name, selected_node, all_touching)
+
+
+func _input(event):
+	if event is InputEventScreenTouch:
+		if new_pos:
+			Project.catapult_target = get_canvas_transform().affine_inverse().xform(event.position)
+			new_pos = false
+
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "Fire":
+		Project.main.shoot_Catapult(self.position)
+		animation_player.play("Lower")
+	if anim_name == "Lower":
+		animation_player.play("Fire")

@@ -49,8 +49,7 @@ func UpdateData(s_data):
 	path = Nav_poly.get_simple_path(global_position, Nav.Destionation, true)
 
 
-func _physics_process(delta):
-	
+func _physics_process(_delta):
 	if click == true:
 		crossair.global_position = touch_pos
 	

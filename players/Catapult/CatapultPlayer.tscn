@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://players/Catapult/CatapultScript.gd" type="Script" id=1]
 [ext_resource path="res://players/Catapult/Sprites/Sprite_sheet_catapul.png" type="Texture" id=2]
@@ -85,7 +85,7 @@ shader_param/add_margins = true
 
 [sub_resource type="Animation" id=5]
 resource_name = "Fire"
-length = 0.83
+length = 0.241
 step = 0.004
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -94,10 +94,26 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.068, 0.084, 0.104, 0.12, 0.132, 0.187, 0.772 ),
+"times": PoolRealArray( 0, 0.068, 0.084, 0.104, 0.12, 0.132, 0.187 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 6, 7 ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "Lower"
+length = 2.98
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.9, 1.5, 1.9, 2.2, 2.4, 2.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3, 4, 6, 7, 8 ]
+"values": [ 7, 8, 9, 10, 12, 13, 14, 15 ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -158,6 +174,7 @@ frame = 17
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Fire = SubResource( 5 )
+anims/Lower = SubResource( 8 )
 anims/RESET = SubResource( 2 )
 anims/Walking = SubResource( 3 )
 
@@ -228,6 +245,11 @@ one_shot = true
 wait_time = 0.114
 autostart = true
 
+[node name="Movement_timer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 [connection signal="area_entered" from="Troup_Area" to="." method="_on_Troup_Area_area_entered"]
 [connection signal="pressed" from="TouchScreenButton" to="." method="_on_TouchScreenButton_pressed"]
 [connection signal="released" from="TouchScreenButton" to="." method="_on_TouchScreenButton_released"]
@@ -235,3 +257,4 @@ autostart = true
 [connection signal="pressed" from="target/Top_button" to="target" method="_on_Top_button_pressed"]
 [connection signal="timeout" from="Targeting_timer" to="." method="_on_Targeting_timer_timeout"]
 [connection signal="timeout" from="Shoot_timer" to="." method="_on_Shoot_timer_timeout"]
+[connection signal="timeout" from="Movement_timer" to="." method="_on_Movement_timer_timeout"]

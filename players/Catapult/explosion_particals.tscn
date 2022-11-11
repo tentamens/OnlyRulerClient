@@ -1,0 +1,86 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://players/Catapult/explosion_particals.gd" type="Script" id=1]
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+position = Vector2( -2.38419e-07, 41 )
+rotation = -3.05578
+scale = Vector2( 2.39512, 2.39512 )
+emitting = false
+amount = 185
+lifetime = 3.0
+one_shot = true
+speed_scale = 1.2
+explosiveness = 0.93
+randomness = 0.93
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 2.17
+direction = Vector2( 1, 22.345 )
+spread = 56.15
+gravity = Vector2( 0, -10 )
+initial_velocity = 12.0
+initial_velocity_random = 0.52
+linear_accel = 20.18
+damping = 5.5
+damping_random = 0.51
+angle = 250.8
+angle_random = 0.38
+scale_amount = 2.0
+scale_amount_random = 1.0
+color = Color( 0, 0.913725, 0.164706, 1 )
+script = ExtResource( 1 )
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
+position = Vector2( 1.17638, -0.939312 )
+scale = Vector2( 0.659441, 0.659441 )
+emitting = false
+amount = 185
+lifetime = 3.0
+one_shot = true
+speed_scale = 1.2
+explosiveness = 0.94
+randomness = 0.93
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 2.17
+direction = Vector2( 1, 22.345 )
+spread = 56.15
+gravity = Vector2( 0, -10 )
+initial_velocity = 12.0
+initial_velocity_random = 0.52
+linear_accel = 20.18
+damping = 5.5
+damping_random = 0.51
+angle = 250.8
+angle_random = 0.38
+scale_amount = 2.0
+scale_amount_random = 1.0
+color = Color( 0.576471, 0.419608, 0, 1 )
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2( -0.523327, -1.21217 )
+rotation = 0.0415143
+emitting = false
+amount = 70
+lifetime = 3.0
+one_shot = true
+speed_scale = 1.2
+explosiveness = 0.91
+randomness = 0.93
+lifetime_randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 2.17
+direction = Vector2( 1, 22.345 )
+spread = 56.15
+gravity = Vector2( 0, -10 )
+initial_velocity = 9.0
+initial_velocity_random = 0.52
+linear_accel = 20.18
+damping = 5.5
+damping_random = 0.51
+angle = 250.8
+angle_random = 0.38
+scale_amount = 3.0
+scale_amount_random = 1.0
+color = Color( 0.329412, 0.313726, 0.301961, 1 )

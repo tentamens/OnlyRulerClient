@@ -35,5 +35,6 @@ func spawn_catapult():
 func shoot_Catapult(catapult_pos):
 	var new_instance = catapult_projectile.instance()
 	get_node("Projectile").add_child(new_instance)
-	new_instance.global_position = Vector2(catapult_pos.x+65, catapult_pos.y-150)
+	new_instance.global_position = Vector2(catapult_pos.x+65, catapult_pos.y-200)
 	new_instance.launch()
+	print("Spawned new projectile")
