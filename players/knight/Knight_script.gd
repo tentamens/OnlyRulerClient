@@ -50,6 +50,7 @@ func UpdateData(s_data):
 
 
 func _physics_process(_delta):
+	print("hello world")
 	if click == true:
 		crossair.global_position = touch_pos
 	
