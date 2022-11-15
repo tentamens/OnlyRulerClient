@@ -27,6 +27,7 @@ func _physics_process(delta):
 
 
 func _on_Ground_trops_button_down():
+	print("pressed")
 	click  = true
 	crossair.visible = true
 
