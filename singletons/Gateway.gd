@@ -8,6 +8,8 @@ var port = 1910
 
 var username
 var password
+var new_account = false
+
 
 func _process(delta):
 	if get_custom_multiplayer() == null:
@@ -16,12 +18,13 @@ func _process(delta):
 		return;
 	custom_multiplayer.poll();
 
-func ConnectToServer(_username, _password):
+func ConnectToServer(_username, _password, _new_account):
 	print("Trying to connect to server")
 	network = NetworkedMultiplayerENet.new()
 	gateway_api = MultiplayerAPI.new()
 	username = _username
 	password = _password
+	new_account = _new_account
 	network.create_client(ip, port)
 	set_custom_multiplayer(gateway_api)
 	custom_multiplayer.set_root_node(self)
@@ -35,8 +38,17 @@ func ConnectionFailed():
 
 func ConnectionSucceeded():
 	print("Succeeded in connecting to AUTH")
-	RequestLogin()
+	if new_account == true:
+		RequestCreateAccount()
+	else:
+		RequestLogin()
 
+
+func RequestCreateAccount():
+	print("Creating new account")
+	rpc_id(1, "CreateAccountRequest", username, password)
+	username = ""
+	password = ""
 
 func RequestLogin():
 	print("Connecting to gateway to request login")
@@ -45,11 +57,11 @@ func RequestLogin():
 	password = ""
 
 
-remote func ReturnLoginRequest(results):
+remote func ReturnLoginRequest(results, token):
 	print("results received")
 	if results == true:
+		Server.token = token
 		Server.ConnectToServer()
-		get_node("../Ui_background/GUI").queue_free()
 	else:
 		print("Please provide correct username and password")
 		get_node("../UI/Login_Screen/LoginScreen").loginButton.disabled = false
@@ -57,8 +69,19 @@ remote func ReturnLoginRequest(results):
 	network.disconnect("connection_succeeded", self, "ConnectionSucceeded")
 
 
-
-
-
+remote func ReturnCreateAccountRequest(results, message):
+	print("results received")
+	if results == true:
+		print("Account created, please proceed with logging in")
+		get_node("/root/Ui_background/GUI/CreateAccount/Back_button").on_Back_button_pressed()
+	else:
+		if message == 1:
+			print("Couldn't creae account, Please try again")
+		if message == 2:
+			print("That username already exists, please use a different username")
+			get_node("/root/Ui_background/GUI").Confirm_Button.disabled = false
+			get_node("/root/Ui_background/GUI").Back_button.disabled = false
+	network.disconnect("connection_failed", self, "ConnectionFailed")
+	network.disconnect("connection_failed", self, "ConnectionSucceeded")
 
 

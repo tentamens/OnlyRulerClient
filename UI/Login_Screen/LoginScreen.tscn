@@ -1,13 +1,45 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://misc/RoSpritendoSemiboldBeta-vmVwZ.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://misc/Text_theme.tres" type="Theme" id=2]
-[ext_resource path="res://UI/Login_Screen/Login.png" type="Texture" id=3]
 [ext_resource path="res://UI/Login_Screen/LoginScreen.gd" type="Script" id=4]
+[ext_resource path="res://UI/Button/Button.png" type="Texture" id=5]
 
 [sub_resource type="DynamicFont" id=1]
-size = 42
+size = 31
 outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 36
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 25
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="Theme" id=3]
+default_font = SubResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 45
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 51
+outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
@@ -24,7 +56,7 @@ margin_bottom = 58.0
 rect_scale = Vector2( 10.3747, 12.9592 )
 color = Color( 0.294118, 0.294118, 0.309804, 1 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="LoginIn" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 251.0
@@ -33,58 +65,197 @@ margin_right = -330.0
 margin_bottom = -84.0
 theme = ExtResource( 2 )
 
-[node name="Title" type="Label" parent="VBoxContainer"]
+[node name="Title" type="Label" parent="LoginIn"]
 margin_right = 443.0
-margin_bottom = 43.0
+margin_bottom = 32.0
 custom_fonts/font = SubResource( 1 )
 text = "    Login in"
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
-margin_top = 47.0
+[node name="MarginContainer" type="MarginContainer" parent="LoginIn"]
+margin_top = 36.0
 margin_right = 443.0
-margin_bottom = 147.0
+margin_bottom = 136.0
 custom_constants/margin_top = 100
 
-[node name="username_Tilte" type="Label" parent="VBoxContainer"]
-margin_top = 151.0
+[node name="username_Tilte" type="Label" parent="LoginIn"]
+margin_top = 140.0
 margin_right = 443.0
-margin_bottom = 181.0
+margin_bottom = 170.0
 text = "Username"
 
-[node name="Username_lineEdit" type="LineEdit" parent="VBoxContainer"]
-margin_top = 185.0
+[node name="Username_lineEdit" type="LineEdit" parent="LoginIn"]
+margin_top = 174.0
 margin_right = 443.0
-margin_bottom = 225.0
+margin_bottom = 214.0
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="password_Title" type="Label" parent="VBoxContainer"]
-margin_top = 229.0
+[node name="password_Title" type="Label" parent="LoginIn"]
+margin_top = 218.0
 margin_right = 443.0
-margin_bottom = 259.0
+margin_bottom = 248.0
 text = "Password"
 
-[node name="password_lineEdit" type="LineEdit" parent="VBoxContainer"]
-margin_top = 263.0
+[node name="password_lineEdit" type="LineEdit" parent="LoginIn"]
+margin_top = 252.0
 margin_right = 443.0
-margin_bottom = 303.0
+margin_bottom = 292.0
 secret = true
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
-margin_top = 307.0
+[node name="MarginContainer2" type="MarginContainer" parent="LoginIn"]
+margin_top = 296.0
 margin_right = 443.0
-margin_bottom = 307.0
+margin_bottom = 296.0
 
-[node name="LoginButton" type="TextureButton" parent="VBoxContainer"]
-margin_top = 311.0
+[node name="LoginButton" type="TextureButton" parent="LoginIn"]
+margin_top = 300.0
+margin_right = 443.0
+margin_bottom = 392.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 5 )
+expand = true
+
+[node name="Label" type="Label" parent="LoginIn/LoginButton"]
+anchor_right = 1.0
+anchor_bottom = 0.91
+margin_bottom = 0.00999451
+custom_fonts/font = SubResource( 6 )
+text = "Login"
+align = 1
+valign = 1
+
+[node name="Create_account" type="TextureButton" parent="LoginIn"]
+margin_top = 396.0
 margin_right = 443.0
 margin_bottom = 489.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = ExtResource( 3 )
+texture_normal = ExtResource( 5 )
 expand = true
-stretch_mode = 5
 
-[connection signal="pressed" from="VBoxContainer/LoginButton" to="." method="_on_LoginButton_pressed"]
+[node name="Label" type="Label" parent="LoginIn/Create_account"]
+anchor_right = 1.0
+anchor_bottom = 0.91
+margin_left = 24.0
+margin_top = 9.0
+margin_right = 24.0
+margin_bottom = 9.00999
+rect_scale = Vector2( 0.893266, 0.893266 )
+custom_fonts/font = SubResource( 6 )
+text = "Create"
+align = 1
+valign = 1
+
+[node name="CreateAccount" type="VBoxContainer" parent="."]
+visible = false
+margin_left = 251.0
+margin_top = 27.0
+margin_right = 694.0
+margin_bottom = 534.0
+theme = SubResource( 3 )
+
+[node name="Title" type="Label" parent="CreateAccount"]
+margin_right = 443.0
+margin_bottom = 32.0
+custom_fonts/font = SubResource( 1 )
+text = "Create account"
+align = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CreateAccount"]
+margin_top = 36.0
+margin_right = 443.0
+margin_bottom = 103.0
+custom_constants/margin_top = 67
+
+[node name="Email_Address" type="Label" parent="CreateAccount"]
+margin_top = 107.0
+margin_right = 443.0
+margin_bottom = 132.0
+text = "Username"
+align = 1
+
+[node name="Email_Address_lineEdit" type="LineEdit" parent="CreateAccount"]
+margin_top = 136.0
+margin_right = 443.0
+margin_bottom = 171.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="password_Title" type="Label" parent="CreateAccount"]
+margin_top = 175.0
+margin_right = 443.0
+margin_bottom = 200.0
+text = "Password"
+align = 1
+
+[node name="password_lineEdit" type="LineEdit" parent="CreateAccount"]
+margin_top = 204.0
+margin_right = 443.0
+margin_bottom = 239.0
+secret = true
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="RPpassword_Title" type="Label" parent="CreateAccount"]
+margin_top = 243.0
+margin_right = 443.0
+margin_bottom = 268.0
+text = "Repeat Password"
+align = 1
+
+[node name="RPpassword_lineEdit" type="LineEdit" parent="CreateAccount"]
+margin_top = 272.0
+margin_right = 443.0
+margin_bottom = 307.0
+secret = true
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="MarginContainer2" type="MarginContainer" parent="CreateAccount"]
+margin_top = 311.0
+margin_right = 443.0
+margin_bottom = 311.0
+
+[node name="Confirm_Button" type="TextureButton" parent="CreateAccount"]
+margin_top = 315.0
+margin_right = 443.0
+margin_bottom = 409.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 5 )
+expand = true
+
+[node name="Confirm_Back" type="Label" parent="CreateAccount/Confirm_Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 4 )
+text = "Confirm"
+align = 1
+valign = 1
+
+[node name="Back_button" type="TextureButton" parent="CreateAccount"]
+margin_top = 413.0
+margin_right = 443.0
+margin_bottom = 507.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 5 )
+expand = true
+
+[node name="Back_Label" type="Label" parent="CreateAccount/Back_button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "Back"
+align = 1
+valign = 1
+
+[connection signal="pressed" from="LoginIn/LoginButton" to="." method="_on_LoginButton_pressed"]
+[connection signal="pressed" from="LoginIn/Create_account" to="." method="_on_Create_account_pressed"]
+[connection signal="pressed" from="CreateAccount/Confirm_Button" to="." method="_on_Confirm_Button_pressed"]
+[connection signal="pressed" from="CreateAccount/Back_button" to="." method="_on_Back_button_pressed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://world/grass.tscn" type="PackedScene" id=1]
 [ext_resource path="res://walls/walls.tscn" type="PackedScene" id=2]
@@ -14,11 +14,9 @@
 [ext_resource path="res://fallen_gate/gate.tscn" type="PackedScene" id=12]
 [ext_resource path="res://UI/hp_bar/Health_Bar.tscn" type="PackedScene" id=13]
 [ext_resource path="res://world/positions/Positions_script.gd" type="Script" id=14]
-[ext_resource path="res://Camera/Camera.tscn" type="PackedScene" id=15]
-[ext_resource path="res://walls/tents/tent_red.png" type="Texture" id=16]
+[ext_resource path="res://players/tent.tscn" type="PackedScene" id=15]
 [ext_resource path="res://misc/navigation/Nav_polly.gd" type="Script" id=17]
 [ext_resource path="res://UI/HUD/hud.tscn" type="PackedScene" id=18]
-[ext_resource path="res://UI/tent/tent.gd" type="Script" id=19]
 [ext_resource path="res://UI/tent/TentPopUp.tscn" type="PackedScene" id=20]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -41,6 +39,8 @@ Knight_Money = 10
 Catapult_Food = 20
 Catapult_Money = 30
 
+[node name="OtherPlayers" type="YSort" parent="."]
+
 [node name="Projectile" type="Node2D" parent="."]
 z_index = 340
 
@@ -52,45 +52,99 @@ scale = Vector2( 1.87643, 1.50419 )
 z_index = 1
 
 [node name="grass" parent="world" instance=ExtResource( 1 )]
-position = Vector2( -226, -91 )
-scale = Vector2( 1.49946, 1.49946 )
+position = Vector2( -338, -174 )
+scale = Vector2( 1.97304, 1.97304 )
 
-[node name="Positions" type="Node2D" parent="."]
+[node name="Positions" type="Node2D" parent="world"]
 script = ExtResource( 14 )
 
-[node name="top" type="Position2D" parent="Positions"]
+[node name="top" type="Position2D" parent="world/Positions"]
 position = Vector2( 609, 86 )
 script = ExtResource( 4 )
 __meta__ = {
 "_gizmo_extents_": 43.6
 }
 
-[node name="bottom" type="Position2D" parent="Positions"]
+[node name="bottom" type="Position2D" parent="world/Positions"]
 position = Vector2( 598, 649 )
 script = ExtResource( 5 )
 __meta__ = {
 "_gizmo_extents_": 43.6
 }
 
-[node name="Node" type="Node" parent="Positions"]
+[node name="Node" type="Node" parent="world/Positions"]
 
-[node name="front" type="Position2D" parent="Positions/Node"]
+[node name="front" type="Position2D" parent="world/Positions/Node"]
 position = Vector2( 292, -128 )
 script = ExtResource( 6 )
 
-[node name="front_2" type="Position2D" parent="Positions/Node"]
+[node name="front_2" type="Position2D" parent="world/Positions/Node"]
 position = Vector2( 332, -77 )
 
-[node name="Position2D3" type="Position2D" parent="Positions/Node"]
+[node name="Position2D3" type="Position2D" parent="world/Positions/Node"]
 position = Vector2( 261, -84 )
 
-[node name="test" type="Position2D" parent="Positions/Node"]
+[node name="test" type="Position2D" parent="world/Positions/Node"]
 position = Vector2( 532, 144 )
 
-[node name="Knight" type="Node" parent="Positions"]
+[node name="Knight" type="Node" parent="world/Positions"]
 
-[node name="castle_wall" type="Position2D" parent="Positions/Knight"]
+[node name="castle_wall" type="Position2D" parent="world/Positions/Knight"]
 position = Vector2( 526, 277 )
+
+[node name="wallen_gate" type="Node2D" parent="world"]
+position = Vector2( -309, -179 )
+scale = Vector2( 1.76996, 1.76996 )
+z_index = 3
+
+[node name="Right" type="Sprite" parent="world/wallen_gate"]
+visible = false
+position = Vector2( 600, 283 )
+rotation = 1.57079
+scale = Vector2( 1.34413, 1.22233 )
+texture = ExtResource( 11 )
+
+[node name="Left" type="Sprite" parent="world/wallen_gate"]
+visible = false
+position = Vector2( 280, 284 )
+rotation = 4.71238
+scale = Vector2( 1.31375, 1.23375 )
+texture = ExtResource( 11 )
+
+[node name="Gate" parent="world/wallen_gate" instance=ExtResource( 12 )]
+position = Vector2( -95, -15 )
+z_index = -3
+
+[node name="Health_Bar" parent="world/wallen_gate" instance=ExtResource( 13 )]
+modulate = Color( 1, 1, 1, 0.443137 )
+margin_left = 366.675
+margin_top = 172.885
+margin_right = 366.675
+margin_bottom = 172.885
+
+[node name="wall_collisions" type="Node2D" parent="world"]
+
+[node name="top_wall" type="StaticBody2D" parent="world/wall_collisions"]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="world/wall_collisions/top_wall"]
+position = Vector2( 439.5, -327.5 )
+shape = SubResource( 1 )
+
+[node name="bottom_wall" type="StaticBody2D" parent="world/wall_collisions"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="world/wall_collisions/bottom_wall"]
+position = Vector2( 441, 883.5 )
+shape = SubResource( 2 )
+
+[node name="Navigation2D" type="Navigation2D" parent="world"]
+script = ExtResource( 17 )
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="world/Navigation2D"]
+navpoly = SubResource( 3 )
+
+[node name="tent" parent="world" instance=ExtResource( 15 )]
 
 [node name="target" type="Node2D" parent="." groups=["Targeting"]]
 z_index = 52
@@ -106,79 +160,17 @@ visible = false
 scale = Vector2( 4, 4 )
 texture = ExtResource( 10 )
 
-[node name="wallen_gate" type="Node2D" parent="."]
-position = Vector2( -309, -179 )
-scale = Vector2( 1.76996, 1.76996 )
-z_index = 3
+[node name="Hud" type="CanvasLayer" parent="."]
 
-[node name="Right" type="Sprite" parent="wallen_gate"]
-visible = false
-position = Vector2( 600, 283 )
-rotation = 1.57079
-scale = Vector2( 1.34413, 1.22233 )
-texture = ExtResource( 11 )
-
-[node name="Left" type="Sprite" parent="wallen_gate"]
-visible = false
-position = Vector2( 280, 284 )
-rotation = 4.71238
-scale = Vector2( 1.31375, 1.23375 )
-texture = ExtResource( 11 )
-
-[node name="Gate" parent="wallen_gate" instance=ExtResource( 12 )]
-position = Vector2( -95, -15 )
-z_index = -3
-
-[node name="Health_Bar" parent="wallen_gate" instance=ExtResource( 13 )]
-modulate = Color( 1, 1, 1, 0.443137 )
-margin_left = 366.675
-margin_top = 172.885
-margin_right = 366.675
-margin_bottom = 172.885
-
-[node name="wall_collisions" type="Node2D" parent="."]
-
-[node name="top_wall" type="StaticBody2D" parent="wall_collisions"]
-collision_layer = 8
-collision_mask = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_collisions/top_wall"]
-position = Vector2( 439.5, -327.5 )
-shape = SubResource( 1 )
-
-[node name="bottom_wall" type="StaticBody2D" parent="wall_collisions"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="wall_collisions/bottom_wall"]
-position = Vector2( 441, 883.5 )
-shape = SubResource( 2 )
-
-[node name="Camera" parent="." instance=ExtResource( 15 )]
-position = Vector2( 486, 319 )
-zoom = Vector2( 1.689, 1.615 )
-
-[node name="Navigation2D" type="Navigation2D" parent="."]
-script = ExtResource( 17 )
-
-[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
-navpoly = SubResource( 3 )
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="hud" parent="CanvasLayer" instance=ExtResource( 18 )]
+[node name="hud" parent="Hud" instance=ExtResource( 18 )]
 margin_left = 3.0
 margin_right = 3.0
 
-[node name="resourcesOverlay" parent="CanvasLayer" instance=ExtResource( 7 )]
+[node name="resourcesOverlay" parent="Hud" instance=ExtResource( 7 )]
 anchor_left = 0.027
 anchor_bottom = 0.127
 margin_left = 0.351999
 margin_bottom = -0.200005
-
-[node name="tent" type="TouchScreenButton" parent="."]
-position = Vector2( 1154, 171 )
-scale = Vector2( 5.69668, 5.69668 )
-normal = ExtResource( 16 )
-script = ExtResource( 19 )
 
 [node name="TentPopUpCanvas" type="CanvasLayer" parent="."]
 
@@ -192,7 +184,6 @@ margin_bottom = 806.0
 disabled = true
 
 [node name="TentPopUp" parent="TentPopUpCanvas" instance=ExtResource( 20 )]
-visible = false
 margin_left = -442.0
 margin_top = -237.0
 margin_right = 352.0
@@ -200,5 +191,3 @@ margin_bottom = 239.0
 
 [connection signal="pressed" from="target/Top_button" to="target" method="_on_Top_button_pressed"]
 [connection signal="released" from="target/Top_button" to="target" method="_on_Top_button_released"]
-[connection signal="pressed" from="tent" to="tent" method="_on_tent_pressed"]
-[connection signal="button_down" from="TentPopUpCanvas/ClosePopUp" to="tent" method="_on_ClosePopUp_button_down"]
