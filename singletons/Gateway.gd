@@ -64,7 +64,6 @@ remote func ReturnLoginRequest(results, token):
 		Server.ConnectToServer()
 	else:
 		print("Please provide correct username and password")
-		get_node("../UI/Login_Screen/LoginScreen").loginButton.disabled = false
 	network.disconnect("connection_failed", self, "ConnectionFailed")
 	network.disconnect("connection_succeeded", self, "ConnectionSucceeded")
 

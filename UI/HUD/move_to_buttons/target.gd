@@ -20,15 +20,15 @@ func _input(event):
 		touch_pos = get_canvas_transform().affine_inverse().xform(event.position)
 
 func _physics_process(delta):
-	
 	if click == true:
+		print("TRUE")
 		crossair.global_position = touch_pos
 
 
 
 func _on_Ground_trops_button_down():
 	print("pressed")
-	click  = true
+	click = true
 	crossair.visible = true
 
 

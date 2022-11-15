@@ -1,9 +1,9 @@
 extends CanvasLayer
 
 
-onready var username_input = get_node("VBoxContainer/Username_lineEdit")
-onready var password_input = get_node("VBoxContainer/password_lineEdit")
-onready var login_button = get_node("VBoxContainer/LoginButton")
+onready var username_input = get_node("LoginIn/Username_lineEdit")
+onready var password_input = get_node("LoginIn/password_lineEdit")
+onready var login_button = get_node("LoginIn/LoginButton")
 # Create account nodes
 onready var create_username_input = get_node("CreateAccount/Email_Address_lineEdit")
 onready var create_userpassword_input = get_node("CreateAccount/password_lineEdit")
