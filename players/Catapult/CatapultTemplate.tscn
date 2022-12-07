@@ -1,17 +1,16 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
-[ext_resource path="res://players/Catapult/CatapultScript.gd" type="Script" id=1]
-[ext_resource path="res://players/Catapult/Sprites/Sprite_sheet_catapul.png" type="Texture" id=2]
-[ext_resource path="res://UI/HUD/move_to_buttons/target.gd" type="Script" id=3]
-[ext_resource path="res://traps/spikes/Health.gd" type="Script" id=4]
-[ext_resource path="res://players/archer/sprite/target.png" type="Texture" id=5]
-[ext_resource path="res://UI/hp_bar/sprites/hp_health.png" type="Texture" id=6]
-[ext_resource path="res://players/archer/sprite/invis_button.png" type="Texture" id=7]
-[ext_resource path="res://UI/hp_bar/sprites/hp_background.png" type="Texture" id=8]
+[ext_resource path="res://players/archer/sprite/target.png" type="Texture" id=2]
+[ext_resource path="res://players/Catapult/Sprites/Sprite_sheet_catapul.png" type="Texture" id=3]
+[ext_resource path="res://UI/hp_bar/sprites/hp_health.png" type="Texture" id=4]
+[ext_resource path="res://UI/hp_bar/sprites/hp_background.png" type="Texture" id=5]
+[ext_resource path="res://players/archer/sprite/invis_button.png" type="Texture" id=6]
+[ext_resource path="res://traps/spikes/Health.gd" type="Script" id=7]
+[ext_resource path="res://UI/HUD/move_to_buttons/target.gd" type="Script" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 
-[sub_resource type="Shader" id=9]
+[sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
 
 uniform vec4 color : hint_color = vec4(1.0);
@@ -75,15 +74,15 @@ void fragment() {
 	}
 }"
 
-[sub_resource type="ShaderMaterial" id=7]
-shader = SubResource( 9 )
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
 shader_param/color = Color( 1, 1, 1, 1 )
 shader_param/width = 0.0
 shader_param/pattern = 2
 shader_param/inside = false
 shader_param/add_margins = true
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "Fire"
 length = 0.241
 step = 0.004
@@ -100,7 +99,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 6, 7 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=5]
 resource_name = "Lower"
 length = 2.98
 tracks/0/type = "value"
@@ -116,7 +115,7 @@ tracks/0/keys = {
 "values": [ 7, 8, 9, 10, 12, 13, 14, 15 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=6]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -131,7 +130,7 @@ tracks/0/keys = {
 "values": [ 17 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=7]
 resource_name = "Walking"
 length = 0.306
 loop = true
@@ -148,14 +147,13 @@ tracks/0/keys = {
 "values": [ 17, 16 ]
 }
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=8]
 radius = 9.28518
 
-[node name="Catapult" type="KinematicBody2D" groups=["Catapult", "Knight"]]
+[node name="CatapultTemplate" type="KinematicBody2D"]
 position = Vector2( -1, 0 )
 rotation = -0.00523286
 scale = Vector2( 6.55502, 6.55502 )
-script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [ -171.0 ],
 "_edit_vertical_guides_": [ 32.0 ]
@@ -166,17 +164,17 @@ position = Vector2( 8.54732, -2.9643 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 7 )
+material = SubResource( 3 )
 position = Vector2( 10.508, -13.7482 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 hframes = 18
 frame = 17
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Fire = SubResource( 5 )
-anims/Lower = SubResource( 8 )
-anims/RESET = SubResource( 2 )
-anims/Walking = SubResource( 3 )
+anims/Fire = SubResource( 4 )
+anims/Lower = SubResource( 5 )
+anims/RESET = SubResource( 6 )
+anims/Walking = SubResource( 7 )
 
 [node name="Troup_Area" type="Area2D" parent="."]
 position = Vector2( 9.0375, -7.86607 )
@@ -187,12 +185,12 @@ collision_mask = 524288
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Troup_Area"]
 position = Vector2( -1.00531, 12.167 )
 scale = Vector2( 3.57482, 4.00614 )
-shape = SubResource( 4 )
+shape = SubResource( 8 )
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
 position = Vector2( 18.3509, -19.6303 )
 scale = Vector2( -0.651983, 0.966426 )
-normal = ExtResource( 7 )
+normal = ExtResource( 6 )
 
 [node name="Damage_tick" type="Timer" parent="."]
 
@@ -203,7 +201,7 @@ margin_top = -24.5321
 margin_right = 51.4884
 margin_bottom = 15.4679
 rect_scale = Vector2( -0.239088, 0.27467 )
-script = ExtResource( 4 )
+script = ExtResource( 7 )
 
 [node name="TextureProgress" type="TextureProgress" parent="Control"]
 anchor_left = -0.363
@@ -216,26 +214,26 @@ margin_right = 99.2839
 margin_bottom = 12.0092
 rect_scale = Vector2( -0.465188, 0.462905 )
 value = 100.0
-texture_under = ExtResource( 8 )
-texture_progress = ExtResource( 6 )
+texture_under = ExtResource( 5 )
+texture_progress = ExtResource( 4 )
 tint_progress = Color( 0.0352941, 1, 0.0352941, 1 )
 
 [node name="target" type="Node2D" parent="."]
 position = Vector2( 10.508, -13.7482 )
 z_index = 164
-script = ExtResource( 3 )
+script = ExtResource( 8 )
 
 [node name="Top_button" type="TouchScreenButton" parent="target"]
 position = Vector2( -55.3774, -111.67 )
 scale = Vector2( 4.03561, 6.83804 )
-normal = ExtResource( 7 )
+normal = ExtResource( 6 )
 
 [node name="target" type="Sprite" parent="target"]
 visible = false
 position = Vector2( 1.9607, 9.31336 )
 scale = Vector2( 1.03793, 0.893102 )
 z_index = 49
-texture = ExtResource( 5 )
+texture = ExtResource( 2 )
 
 [node name="Targeting_timer" type="Timer" parent="."]
 wait_time = 0.15

@@ -87,6 +87,7 @@ text = "Username"
 margin_top = 174.0
 margin_right = 443.0
 margin_bottom = 214.0
+text = "Test"
 caret_blink = true
 caret_blink_speed = 0.5
 
@@ -100,6 +101,7 @@ text = "Password"
 margin_top = 252.0
 margin_right = 443.0
 margin_bottom = 292.0
+text = "Test123"
 secret = true
 caret_blink = true
 caret_blink_speed = 0.5

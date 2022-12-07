@@ -8,9 +8,9 @@
 [ext_resource path="res://UI/Login_Screen/LoginScreen.tscn" type="PackedScene" id=6]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1054, -31, 1034, 611, -50, 605, -44, -56 )
+vertices = PoolVector2Array( 1054, -31, 1023, 615, -49, 607, -44, -56 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( 1054, -31, 1034, 611, -50, 605, -44, -56 ) ]
+outlines = [ PoolVector2Array( 1054, -31, 1023, 615, -49, 607, -44, -56 ) ]
 
 [sub_resource type="Environment" id=2]
 background_mode = 4
@@ -28,7 +28,7 @@ script = ExtResource( 5 )
 script = ExtResource( 1 )
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
-position = Vector2( 0, -2 )
+position = Vector2( 0, 11 )
 navpoly = SubResource( 1 )
 
 [node name="grass" parent="." instance=ExtResource( 2 )]

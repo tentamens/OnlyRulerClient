@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/tent/tent.gd" type="Script" id=1]
+[ext_resource path="res://players/Players/tent_red.png" type="Texture" id=2]
+
+[node name="Tent" type="Node2D"]
+
+[node name="tent" type="TouchScreenButton" parent="."]
+position = Vector2( -406, 169 )
+scale = Vector2( 5.69668, 5.69668 )
+normal = ExtResource( 2 )
+script = ExtResource( 1 )
+
+[connection signal="pressed" from="tent" to="tent" method="_on_tent_pressed"]

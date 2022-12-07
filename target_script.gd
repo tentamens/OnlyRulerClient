@@ -34,12 +34,15 @@ func _physics_process(delta):
 	
 	
 	if click == true:
+		print(crossair.global_position)
 		crossair.global_position = touch_pos
+		crossair.visible = true
+
 
 
 func _on_Top_button_pressed():
 	click  = true
-	crossair.visible = true
+
 
 
 func _on_Top_button_released():
@@ -49,10 +52,12 @@ func _on_Top_button_released():
 	
 
 func move_units_down():
+	crossair.global_position == touch_pos
 	click = true
 	crossair.visible = true
 
 func move_units_up():
 	click = false
 	crossair.visible = false
+	print("Moving to  ", touch_pos)
 	Nav.move_to(touch_pos)

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tent_red.png-5df3b59e4711cdbbe88ea44f12d091a2.stex"
+path="res://.import/trash-can.png-74f5b93a39a0edad0343c82483019a46.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://walls/tents/tent_red.png"
-dest_files=[ "res://.import/tent_red.png-5df3b59e4711cdbbe88ea44f12d091a2.stex" ]
+source_file="res://addons/GhodBase.RunInstance/trash-can.png"
+dest_files=[ "res://.import/trash-can.png-74f5b93a39a0edad0343c82483019a46.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

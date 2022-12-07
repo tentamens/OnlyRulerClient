@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://players/knight/sprites/knight.png" type="Texture" id=1]
 [ext_resource path="res://players/knight/Knight_script.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://UI/HUD/move_to_buttons/target.gd" type="Script" id=8]
 [ext_resource path="res://players/archer/sprite/target.png" type="Texture" id=9]
 [ext_resource path="res://players/knightwalking.tres" type="Animation" id=10]
+[ext_resource path="res://players/knight/Knight.gd" type="Script" id=11]
 
 [sub_resource type="Animation" id=6]
 resource_name = "Attacking"
@@ -44,6 +45,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ 0, 1, 2, 3 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("KinematicBody2D/Sprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "enter"
@@ -61,6 +74,72 @@ tracks/0/keys = {
 "values": [ 5, 6, 7, 8, 9 ]
 }
 
+[sub_resource type="Animation" id=8]
+resource_name = "walking_Up"
+length = 0.714
+loop = true
+step = 0.026
+tracks/0/type = "value"
+tracks/0/path = NodePath("KinematicBody2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.156, 0.338, 0.546 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 28, 29, 30, 31 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "walking_down"
+length = 0.701
+loop = true
+step = 0.023
+tracks/0/type = "value"
+tracks/0/path = NodePath("KinematicBody2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.046, 0.207, 0.414, 0.575 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 43, 44, 45, 46 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "walking_right"
+length = 0.63
+loop = true
+step = 0.002
+tracks/0/type = "value"
+tracks/0/path = NodePath("KinematicBody2D/Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.178, 0.358, 0.53 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 1, 2, 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("KinematicBody2D/Sprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.636 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, true ]
+}
+
 [sub_resource type="CapsuleShape2D" id=3]
 radius = 2.83766
 height = 3.62127
@@ -72,6 +151,7 @@ height = 94.2371
 [sub_resource type="CircleShape2D" id=7]
 
 [node name="Knight" type="Node2D"]
+script = ExtResource( 11 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 reset_on_save = false
@@ -79,18 +159,22 @@ anims/Attacking = SubResource( 6 )
 anims/RESET = SubResource( 1 )
 anims/enter = SubResource( 4 )
 anims/walking = ExtResource( 10 )
+anims/walking_Up = SubResource( 8 )
+anims/walking_down = SubResource( 9 )
+anims/walking_right = SubResource( 10 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="." groups=["Knight"]]
-position = Vector2( 0, -4 )
 scale = Vector2( 0.573023, 0.573023 )
 collision_layer = 514
 collision_mask = 521
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="KinematicBody2D"]
-scale = Vector2( 6.50932, 6.50932 )
+position = Vector2( 0.161557, 0 )
+scale = Vector2( 6.52, 6.509 )
 texture = ExtResource( 1 )
 hframes = 14
+vframes = 11
 frame = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KinematicBody2D"]
@@ -109,6 +193,7 @@ shape = SubResource( 5 )
 wait_time = 0.25
 
 [node name="Control" type="Control" parent="KinematicBody2D"]
+visible = false
 modulate = Color( 1, 1, 1, 0.427451 )
 margin_left = 12.8439
 margin_top = -15.5964
@@ -157,6 +242,10 @@ collision_mask = 524288
 position = Vector2( -1.96071, 10.7839 )
 scale = Vector2( -11.7399, -13.6439 )
 shape = SubResource( 7 )
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 15.0
+target_desired_distance = 20.65
 
 [connection signal="area_entered" from="KinematicBody2D/knight" to="KinematicBody2D" method="_on_Area2D_area_entered"]
 [connection signal="area_exited" from="KinematicBody2D/knight" to="KinematicBody2D" method="_on_knight_area_exited"]

@@ -28,7 +28,7 @@ z_index = 52
 script = ExtResource( 5 )
 
 [node name="Top_button" type="TouchScreenButton" parent="VBoxContainer/Ground_trops/target"]
-position = Vector2( 221, -146 )
+position = Vector2( 404.22, -194.204 )
 scale = Vector2( 4.48553, 2.9115 )
 normal = ExtResource( 3 )
 

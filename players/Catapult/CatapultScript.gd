@@ -133,7 +133,8 @@ func new_target_des():
 	pass
 
 
-""" Checks all the nodes in the group to see if there are within 120 of itself"""
+""" Checks all the nodes in the group to see if there are within 120
+	of itself"""
 func checkNearby(group_nodes, the_group):
 	#Looks for all nearby troups and delets them from 'group_nodes' if they are not
 	group_nodes.erase(self)

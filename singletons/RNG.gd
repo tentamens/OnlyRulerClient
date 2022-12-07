@@ -1,13 +1,12 @@
 extends Node
 
 
-var smallest
-var biggest
+
 var num
 
 var RNG = RandomNumberGenerator.new()
 
-func random():
+func random(smallest, biggest):
 	RNG.randomize()
 	num = RNG.randf_range(smallest, biggest)
 	smallest = 0

@@ -5,21 +5,35 @@ onready var animation_player = get_parent().get_node("AnimationPlayer")
 onready var die_ticks = get_node("Damage_Tick")
 onready var crossair = get_node("target")
 
+
+var current_ani: int = 1
+
 var all_touching = []
 
 var click = false
 
 
+var IDEN
+
 
 var health
-var SPEED
+var SPEED = 150
+
+
+
+""" \\\\\\\\ SERVER VARS //////"""
+
+var player_state
 
 
 var Nav_poly = Nav.Nav_poly
 var path = []
 var threshold = 16
-var velocity = Vector2.ZERO
+var velocity := Vector2.ZERO
 var touch_pos
+
+onready var navigation_agent := get_parent().get_node(
+	"NavigationAgent2D")
 
 
 var damage
@@ -34,7 +48,6 @@ var RNG = RandomNumberGenerator.new()
 func _ready():
 	Server.FetchData("Knight", get_instance_id())
 
-
 func UpdateData(s_data):
 	damage = s_data.Damage
 	SPEED = s_data.Speed
@@ -44,32 +57,70 @@ func UpdateData(s_data):
 
 	animation_player.play("walking")
 	Destination = WorldPOS.castle_position
-	Master.position = Vector2(1200, 300)
 	animation_player.play("walking")
-	path = Nav_poly.get_simple_path(global_position, Nav.Destionation, true)
+	navigation_agent.set_target_location(Nav.Destionation)
 
 
-func _physics_process(_delta):
+func _physics_process(delta: float) -> void:
 	if click == true:
+		print("MOVING")
 		crossair.global_position = touch_pos
 	
-	if path.size() > 0:
-		move_to_target()
+	move_to_target(delta)
+	
+	DefinePlayerState()
+
+# Sends data to the server ab
+func DefinePlayerState():
+	if IDEN != null:
+		
+		var player_state = {"T": OS.get_system_time_msecs(),
+		"P": Master.global_position, "U": 1,
+		"CI": get_tree().get_network_unique_id(), "IDEN": IDEN,
+		"CA": current_ani}
+		
+		Server.SendPlayerState(player_state, IDEN)
+
+
+func move_to_target(delta):
+	if navigation_agent.is_navigation_finished():
+		return
+	var direction = global_position.direction_to(
+		navigation_agent.get_next_location())
+	var desired_velocity = direction * SPEED
+	var steering = (desired_velocity - velocity) * delta * 4.0
+	velocity += steering
+	
+	velocity = move_and_slide(velocity)
+	update_animations(direction)
 
 
 
-
-func move_to_target():
-	if global_position.distance_to(path[0]) < threshold:
-		path.remove(0)
-	else:
-		var direction = global_position.direction_to(path[0])
-		velocity = direction * SPEED
-		velocity = move_and_slide(velocity)
-
-
-
-
+func update_animations(direction):
+	"""	ANI 1 = WALKING LEFT
+		ANI 2 = WALKING RIGHT
+		ANI 3 = WALKING UP
+		ANI 4 = WALKING DOWN"""
+	var sprite: Sprite = get_node('Sprite')
+	
+	if direction.y < -0.6:
+		sprite.flip_h = false
+		animation_player.play('walking_Up')
+		current_ani = 3
+	
+	elif direction.y > 0.6:
+		sprite.flip_h = false
+		animation_player.play('walking_down')
+		current_ani = 4
+	
+	elif direction.x < -0.5:
+		sprite.flip_h = false
+		animation_player.play('walking')
+		current_ani = 1
+	
+	elif direction.x > 0.5:
+		animation_player.play('walking_right')
+		current_ani = 2
 
 
 func _on_Area2D_area_entered(area):
@@ -123,7 +174,7 @@ func _on_TouchScreenButton_released():
 
 
 func update_Destination(touch_pos):
-	path = Nav_poly.get_simple_path(global_position, touch_pos, false)
+	navigation_agent.set_target_location(touch_pos)
 	Nav.the_group.erase(self)
 
 

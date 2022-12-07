@@ -16,7 +16,6 @@ func select_nodes(group_name, selected_node, all_touching):
 
 
 func next_node(group_nodes, the_group):
-	print(the_group)
 	if group_nodes.empty() == true:
 		pass
 	else:

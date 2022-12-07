@@ -32,23 +32,20 @@ func move_to_target():
 
 
 func go_somewhere_else():
-	path = Nav.Background_poly.get_simple_path(global_position, Vector2(x_pos,y_pos), true)
+	path = Nav.Background_poly.get_simple_path(
+		global_position, Vector2(x_pos,y_pos), true)
 
 
 
 
 func new_location():
 	# THIS IS FOR X
-	Rng.smallest = 0
-	Rng.biggest = 1000
-	Rng.random()
+	Rng.random(0, 1000)
 	x_pos = Rng.num
 	Rng.num = 0
 	
 	
-	Rng.smallest = 0
-	Rng.biggest = 550
-	Rng.random()
+	Rng.random(0, 550)
 	y_pos = Rng.num
 	Rng.num = 0
 

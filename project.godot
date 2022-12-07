@@ -8,6 +8,34 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Control",
+"class": "NewInstanceDocker",
+"language": "GDScript",
+"path": "res://addons/GhodBase.RunInstance/NewInstanceDocker.gd"
+}, {
+"base": "ConfirmationDialog",
+"class": "OptionsDialog",
+"language": "GDScript",
+"path": "res://addons/GhodBase.RunInstance/OptionsDialog.gd"
+}, {
+"base": "HBoxContainer",
+"class": "PidContainer",
+"language": "GDScript",
+"path": "res://addons/GhodBase.RunInstance/PidContainer.gd"
+}, {
+"base": "FileDialog",
+"class": "SelectScene",
+"language": "GDScript",
+"path": "res://addons/GhodBase.RunInstance/SelectScene.gd"
+} ]
+_global_script_class_icons={
+"NewInstanceDocker": "",
+"OptionsDialog": "",
+"PidContainer": "",
+"SelectScene": ""
+}
+
 [application]
 
 config/name="Only Ruler"

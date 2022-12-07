@@ -28,12 +28,16 @@ func _on_LoginButton_pressed():
 func _on_Confirm_Button_pressed():
 	if create_username_input.get_text() == "":
 		print("Please provide a valid username")
+	
 	elif create_userpassword_input.get_text() == "":
 		print("Please provid a valid password")
+	
 	elif create_userpassword_repeat_input.get_text() == "":
 		print("Please repeat your password")
+	
 	elif create_userpassword_input.get_text() != create_userpassword_repeat_input.get_text():
 		print("Passwords don't match")
+	
 	elif create_userpassword_input.get_text().length() <= 6:
 		print("Password must be at least 7 characters")
 	else:
