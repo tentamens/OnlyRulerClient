@@ -1,13 +1,15 @@
 extends KinematicBody2D
 
-onready var Master = get_node(".")
-onready var animation_player = get_parent().get_node("AnimationPlayer")
+onready var Master = self
+onready var animation_player = get_node("AnimationPlayer")
 onready var die_ticks = get_node("Damage_Tick")
 onready var crossair = get_node("target")
 
 
 var current_ani: int = 1
 
+
+var all_hiting : Dictionary = {}
 var all_touching = []
 
 var click = false
@@ -16,7 +18,7 @@ var click = false
 var IDEN
 
 
-var health
+var health = 100
 var SPEED = 150
 
 
@@ -32,13 +34,13 @@ var threshold = 16
 var velocity := Vector2.ZERO
 var touch_pos
 
-onready var navigation_agent := get_parent().get_node(
+onready var navigation_agent : NavigationAgent2D = get_node(
 	"NavigationAgent2D")
 
 
 var damage
 var Destination
-
+onready var _timer: Timer = $Hit_timer
 
 
 
@@ -62,9 +64,6 @@ func UpdateData(s_data):
 
 
 func _physics_process(delta: float) -> void:
-	if click == true:
-		print("MOVING")
-		crossair.global_position = touch_pos
 	
 	move_to_target(delta)
 	
@@ -72,14 +71,17 @@ func _physics_process(delta: float) -> void:
 
 # Sends data to the server ab
 func DefinePlayerState():
-	if IDEN != null:
-		
+	if health == null:
+		return
+	elif IDEN != null:
 		var player_state = {"T": OS.get_system_time_msecs(),
 		"P": Master.global_position, "U": 1,
 		"CI": get_tree().get_network_unique_id(), "IDEN": IDEN,
-		"CA": current_ani}
+		"CA": current_ani, "HP": health}
 		
 		Server.SendPlayerState(player_state, IDEN)
+		
+
 
 
 func move_to_target(delta):
@@ -102,40 +104,33 @@ func update_animations(direction):
 		ANI 3 = WALKING UP
 		ANI 4 = WALKING DOWN"""
 	var sprite: Sprite = get_node('Sprite')
-	
-	if direction.y < -0.6:
+	if direction.y < -0.6 and current_ani != 3:
 		sprite.flip_h = false
 		animation_player.play('walking_Up')
 		current_ani = 3
 	
-	elif direction.y > 0.6:
+	elif direction.y > 0.6 and current_ani != 4:
 		sprite.flip_h = false
 		animation_player.play('walking_down')
 		current_ani = 4
 	
-	elif direction.x < -0.5:
+	elif direction.x < -0.5 and current_ani != 1:
 		sprite.flip_h = false
 		animation_player.play('walking')
 		current_ani = 1
 	
-	elif direction.x > 0.5:
-		animation_player.play('walking_right')
+	elif direction.x > 0.5 and current_ani != 2:
+		animation_player.play('walking')
+		sprite.flip_h = true
 		current_ani = 2
 
 
-func _on_Area2D_area_entered(area):
-	if area.name == "spikes":
-		health -= 10
-		SPEED = 50
-		damage += 5
-		die_ticks.start()
-	
-	
-	if area.name == "Gate_Wall":
-		animation_player.play("Attacking")
-		print(area, "attacking")
 
 func _on_knight_area_exited(area):
+	if area.name == "enemy":
+		if all_hiting.has(area):
+			all_hiting.erase(area)
+	
 	if area.name == "spikes":
 		SPEED = 150
 		damage -= 5
@@ -181,3 +176,26 @@ func update_Destination(touch_pos):
 
 func _on_Troup_Area_area_exited(area):
 	all_touching.remove(all_touching.find(area))
+
+
+
+
+func _on_Hit_timer_timeout() -> void:
+	# units[1] is the IDEN
+	for units in all_hiting:
+		if is_instance_valid(units):
+			units.inflict_damagee(damage)
+
+
+func update_health():
+	get_node('Control').update_health(health)
+
+
+func _on_Troup_Area_area_entered(area: Area2D) -> void:
+	if area.name == "enemy":
+		
+		if !all_hiting.has(area):
+			all_hiting = {area: [damage, area.IDEN]}
+	
+	if area.name == "Gate_Wall":
+		animation_player.play("Attacking")

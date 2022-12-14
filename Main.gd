@@ -5,6 +5,8 @@ var last_world_state = 0
 var Unit_NUMS = 0
 
 
+
+var deleted_Unit = []
 var Player1ID
 var Player2ID
 var interpolation_offset:int = 100
@@ -41,12 +43,6 @@ func _ready():
 	Server.RequestSpawnTent()
 	Project.main = self
 
-func spawn_knight():
-	if Resoucres.Food > Knight_Food and Resoucres.Money > Knight_Money:
-		var new_instance = knight.instance()
-		self.add_child(new_instance)
-		Resoucres.Food -= Knight_Food
-		Resoucres.Money -= Knight_Money
 
 
 func spawn_catapult():
@@ -88,33 +84,42 @@ func PlayerSpawnUnit(UnitID, IDEN):
 	new_instance.IDEN = IDEN
 
 
-func SpawnUnit(Player_State):
+func SpawnUnit(Player_State, l):
+	print(l)
 	var spawn_pos
+	print(Player_State[1])
 	for Unit in Player_State[1].keys():
+		
 		if str(Unit) == "T":
 			continue
 		
-		var UnitCreatorID = Player_State[0][Unit]["CI"] 
-
-		if UnitCreatorID == get_tree().get_network_unique_id():
+		elif deleted_Unit.has(str(Player_State[1][Unit])):
+			continue
 		
-			var new_instance = UnitlistUser[
-				Player_State[1][Unit]["U"]
-				].instance()
-			
-			spawn_pos = Vector2(1167, 287)
-			get_node("Navigation2D/MyUnits").add_child(new_instance)
-			new_instance.set_name(str(Player_State[1][Unit]["IDEN"]))
-			new_instance.global_position = spawn_pos
-		
+		elif Player_State[1][Unit]["HP"] <= 0:
+			continue
 		else:
-		
-			var new_instance = UnitlistEnemy[Player_State[1][Unit]["U"]].instance()
+			var UnitCreatorID = Player_State[1][Unit]["CI"] 
+
+			if UnitCreatorID == get_tree().get_network_unique_id():
 			
-			spawn_pos = Vector2(-275, 287)
-			get_node("Navigation2D/Units").add_child(new_instance)
-			new_instance.set_name(str(Player_State[1][Unit]["IDEN"]))
-			new_instance.global_position = spawn_pos
+				var new_instance = UnitlistUser[
+					Player_State[1][Unit]["U"]
+					].instance()
+				
+				spawn_pos = Vector2(1167, 287)
+				get_node("Navigation2D/MyUnits").add_child(new_instance)
+				new_instance.set_name(str(Player_State[1][Unit]["IDEN"]))
+				new_instance.global_position = spawn_pos
+			
+			else:
+			
+				var new_instance = UnitlistEnemy[Player_State[1][Unit]["U"]].instance()
+				
+				spawn_pos = Vector2(-275, 287)
+				get_node("Navigation2D/Units").add_child(new_instance)
+				new_instance.set_name(str(Player_State[1][Unit]["IDEN"]))
+				new_instance.global_position = spawn_pos
 
 
 func _physics_process(delta: float) -> void:
@@ -123,7 +128,6 @@ func _physics_process(delta: float) -> void:
 		while world_state_buffer.size() > 2 and render_time > world_state_buffer[2].T:
 				world_state_buffer.remove(0)
 		if world_state_buffer.size() > 2:
-			print(world_state_buffer.size())
 			var interpolation_factor := float(
 				render_time - world_state_buffer[1]["T"]) / float(world_state_buffer[2]["T"] - world_state_buffer[1]["T"])
 			
@@ -131,20 +135,25 @@ func _physics_process(delta: float) -> void:
 			
 			for player in world_state_buffer[2].keys():
 				
+				
+				
+				
 				if str(player) == "T":
 					continue
 				
 				if not world_state_buffer[1].has(player):
 					continue
 				
+				if deleted_Unit.has(world_state_buffer[1][player]["IDEN"]):
+					continue
+				
 				if UnitNode.has_node(str(world_state_buffer[1][player]["IDEN"])):
 					if world_state_buffer[1][player]["CI"] != get_tree().get_network_unique_id():
+						var IDEN = world_state_buffer[1][player]["IDEN"]
 						var new_position = lerp(world_state_buffer[1][player]["P"],
 						 world_state_buffer[2][player]["P"], interpolation_factor)
-						
-						get_node("Navigation2D/Units/" + str(
-							world_state_buffer[1][player]["IDEN"])
-							).MovePlayer(new_position)
+						get_node("Navigation2D/Units/" + str(IDEN)
+							).MovePlayer(new_position, world_state_buffer[1][player])
 					
 				elif get_node("Navigation2D/MyUnits").has_node(
 					str(world_state_buffer[1][player]["IDEN"])):
@@ -152,10 +161,39 @@ func _physics_process(delta: float) -> void:
 				
 				
 				else:
-					SpawnUnit(world_state_buffer)
+					if get_node("Navigation2D/MyUnits").has_node(
+					str(world_state_buffer[1][player]["IDEN"])):
+						continue
+					
+					elif UnitNode.has_node(str(world_state_buffer[1][player]["IDEN"])):
+						continue
+					
+					print("spawning a new unit")
+					SpawnUnit(world_state_buffer, "HI")
 
 func UpdateWorldState(world_state, unit_num, player_state):
 	if world_state["T"] > last_world_state:
 		last_world_state = world_state["T"]
 		world_state_buffer.append(world_state)
 
+
+func Inflict_damage(Unit_IDE:int, damage_taken:int):
+	
+	var UnitNode = get_node("Navigation2D/MyUnits")
+	if UnitNode.has_node(str(Unit_IDE)):
+		var unit = get_node("Navigation2D/MyUnits/" + str(Unit_IDE))
+		unit.health -= damage_taken
+		unit.update_health()
+	if get_node("Navigation2D/Units").has_node(str(Unit_IDE)):
+		pass
+
+
+func Erase(unit_iden):
+	if get_node("Navigation2D/MyUnits").has_node(str(unit_iden)):
+		get_node("Navigation2D/MyUnits/" + str(unit_iden)).queue_free()
+		print("Deleted from MyUnits")
+	elif get_node("Navigation2D/Units").has_node(str(unit_iden)):
+		get_node("Navigation2D/Units/" + str(unit_iden)).queue_free()
+		print("Deleted from Units")
+	print("Unit Deleted 'Above code in line 197 main script' ")
+	deleted_Unit = [unit_iden]

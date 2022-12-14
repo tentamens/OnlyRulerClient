@@ -137,4 +137,14 @@ remote func SpawnUnit(player_state_collection, unit_NUM, UnitCreatorID):
 	Project.main.SpawnUnit(player_state_collection, unit_NUM)
 
 
+func Send_Hit_Data(player_id, player_IDE, damage_taken):
+	rpc_id(1, "Receive_Hit_Data", player_id, player_IDE, damage_taken)
+
+remote func Return_Hit_Data(Unit_IDE, damage_taken):
+	Project.main.Inflict_damage(Unit_IDE, damage_taken)
+
+remote func Kill_Unit(IDEN):
+	print("Sending to erase 147 server")
+	Project.main.Erase(IDEN)
+
 

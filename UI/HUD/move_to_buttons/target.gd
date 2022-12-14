@@ -36,7 +36,7 @@ func _on_Ground_trops_button_up():
 	click = false
 	crossair.visible = false
 	desitation = touch_pos
-	if desitation.x < 530:
+	if desitation.x < 0 and WorldPOS.gate == false:
 		Rng.random(180, 380)
 		Nav.Destionation = Vector2(550,Rng.num)
 		Rng.num = 0

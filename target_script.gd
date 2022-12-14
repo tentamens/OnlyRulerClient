@@ -34,7 +34,6 @@ func _physics_process(delta):
 	
 	
 	if click == true:
-		print(crossair.global_position)
 		crossair.global_position = touch_pos
 		crossair.visible = true
 
@@ -48,7 +47,11 @@ func _on_Top_button_pressed():
 func _on_Top_button_released():
 	click = false
 	crossair.visible = false
-	Project.aiming_pos_1 = touch_pos
+	if touch_pos.x < 0:
+		print("further than the gate")
+		Project.aiming_pos_1 = Vector2(80, 3) 
+	else:
+		Project.aiming_pos_1 = touch_pos
 	
 
 func move_units_down():
@@ -59,5 +62,6 @@ func move_units_down():
 func move_units_up():
 	click = false
 	crossair.visible = false
-	print("Moving to  ", touch_pos)
+	if touch_pos.x < 0 and WorldPOS.gate == true:
+		touch_pos = Vector2(20, 3) 
 	Nav.move_to(touch_pos)

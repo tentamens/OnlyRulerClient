@@ -1,4 +1,4 @@
 extends Node
 
 
-var HEALTH = 100
+var HEALTH = 2

@@ -6,7 +6,7 @@
 [node name="Tent" type="Node2D"]
 
 [node name="tent" type="TouchScreenButton" parent="."]
-position = Vector2( -406, 169 )
+position = Vector2( -389, 174 )
 scale = Vector2( 5.69668, 5.69668 )
 normal = ExtResource( 2 )
 script = ExtResource( 1 )

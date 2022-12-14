@@ -1,6 +1,6 @@
 extends Node2D
 
-export var HEALTH = 100
+export var HEALTH = 5
 
 var currently_hitting = 0
 

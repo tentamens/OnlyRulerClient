@@ -14,7 +14,7 @@ script = ExtResource( 1 )
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 518, 291 )
+position = Vector2( 516, 290 )
 shape = SubResource( 1 )
 
 [node name="Gate_Wall" type="Area2D" parent="."]
