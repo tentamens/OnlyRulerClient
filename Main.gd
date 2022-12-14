@@ -70,7 +70,6 @@ func SpawnTent(player_id, Spawn_Position):
 		var new_instance = tent.instance()
 		get_node("Tents").add_child(new_instance)
 		new_instance.name == str(player_id)
-		new_instance.global_position = Spawn_Position
 	
 	if get_tree().get_network_unique_id() == player_id:
 		Player1ID = player_id
