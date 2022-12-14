@@ -65,14 +65,11 @@ func shoot_Catapult(catapult_pos):
 
 
 func SpawnTent(player_id, Spawn_Position):
-	if get_tree().get_network_unique_id() != player_id:
-		Player2ID = player_id
-		var new_instance = tent.instance()
-		get_node("Tents").add_child(new_instance)
-		new_instance.name == str(player_id)
-	
-	if get_tree().get_network_unique_id() == player_id:
-		Player1ID = player_id
+	if get_node("Tents").has_node("Tent"):
+		return
+	var new_instance = tent.instance()
+	get_node("Tents").add_child(new_instance)
+	new_instance.name == str(player_id)
 
 
 func PlayerSpawnUnit(UnitID, IDEN):
