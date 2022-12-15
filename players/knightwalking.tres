@@ -2,7 +2,7 @@
 
 [resource]
 resource_name = "walking"
-length = 0.502
+length = 0.529
 loop = true
 step = 0.012
 tracks/0/type = "value"
@@ -36,8 +36,8 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( -0.024, 0.072, 0.192, 0.324, 0.432 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( -0.024, 0.072, 0.2, 0.324, 0.432 ),
+"transitions": PoolRealArray( 1, 1, 1.68179, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4 ]
 }

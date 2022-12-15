@@ -81,9 +81,9 @@ func PlayerSpawnUnit(UnitID, IDEN):
 
 
 func SpawnUnit(Player_State, l):
-	print(l)
 	var spawn_pos
-	print(Player_State[1])
+	
+	
 	for Unit in Player_State[1].keys():
 		
 		if str(Unit) == "T":
@@ -130,8 +130,6 @@ func _physics_process(delta: float) -> void:
 			var UnitNode = get_node("Navigation2D/Units")
 			
 			for player in world_state_buffer[2].keys():
-				
-				
 				
 				
 				if str(player) == "T":
