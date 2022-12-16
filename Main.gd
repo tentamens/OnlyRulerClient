@@ -11,30 +11,19 @@ var Player1ID
 var Player2ID
 var interpolation_offset:int = 100
 
-export var Knight_Food: int
-export var Knight_Money: int
 
-export var Catapult_Food: int
-export var Catapult_Money: int
-
-onready var knight = preload("res://players/knight/Knight.tscn")
-onready var archer = preload("res://players/archer/archer.tscn")
-onready var catapult = preload("res://players/Catapult/CatapultPlayer.tscn")
 onready var catapult_projectile = preload("res://players/Catapult/Catapult_Projectile.tscn")
 onready var tent = preload("res://players/Players/PlayerTemplate.tscn")
-onready var knightTemplete = preload("res://players/knight/KnightTemplete.tscn")
-onready var archerTemplete = preload("res://players/archer/archer.tscn")
-onready var catapultTemplete = preload("res://players/Catapult/CatapultPlayer.tscn")
 
 var UnitlistUser = [
-	preload("res://players/Catapult/CatapultPlayer.tscn"),
 	preload("res://players/knight/Knight.tscn"),
+	preload("res://players/Catapult/CatapultPlayer.tscn"),
 	preload("res://players/Catapult/CatapultPlayer.tscn")
 	]
 var UnitlistEnemy = [
-	preload("res://players/Catapult/CatapultPlayer.tscn"),
 	preload("res://players/knight/KnightTemplete.tscn"),
-	archerTemplete,
+	preload("res://players/Catapult/CatapultPlayer.tscn"),
+	
 	]
 
 var world_state_buffer = []
@@ -45,12 +34,6 @@ func _ready():
 
 
 
-func spawn_catapult():
-	if Resoucres.Food > Catapult_Food and Resoucres.Money > Catapult_Money:
-		var new_instance = catapult.instance()
-		self.add_child(new_instance)
-		Resoucres.Food -= Catapult_Food
-		Resoucres.Money -= Catapult_Money
 
 
 func shoot_Catapult(catapult_pos):
@@ -83,7 +66,7 @@ func PlayerSpawnUnit(UnitID, IDEN):
 func SpawnUnit(Player_State, l):
 	var spawn_pos
 	
-	
+	print("ello")
 	for Unit in Player_State[1].keys():
 		
 		if str(Unit) == "T":
@@ -98,7 +81,7 @@ func SpawnUnit(Player_State, l):
 			var UnitCreatorID = Player_State[1][Unit]["CI"] 
 
 			if UnitCreatorID == get_tree().get_network_unique_id():
-			
+				print(Player_State[1][Unit]["U"])
 				var new_instance = UnitlistUser[
 					Player_State[1][Unit]["U"]
 					].instance()
@@ -109,7 +92,7 @@ func SpawnUnit(Player_State, l):
 				new_instance.global_position = spawn_pos
 			
 			else:
-			
+				print(Player_State[1][Unit]["U"])
 				var new_instance = UnitlistEnemy[Player_State[1][Unit]["U"]].instance()
 				
 				spawn_pos = Vector2(-275, 287)
@@ -185,9 +168,24 @@ func Inflict_damage(Unit_IDE:int, damage_taken:int):
 func Erase(unit_iden):
 	if get_node("Navigation2D/MyUnits").has_node(str(unit_iden)):
 		get_node("Navigation2D/MyUnits/" + str(unit_iden)).queue_free()
-		print("Deleted from MyUnits")
 	elif get_node("Navigation2D/Units").has_node(str(unit_iden)):
 		get_node("Navigation2D/Units/" + str(unit_iden)).queue_free()
-		print("Deleted from Units")
-	print("Unit Deleted 'Above code in line 197 main script' ")
 	deleted_Unit = [unit_iden]
+
+func TentUpdate(State:Dictionary, ID:int):
+	
+	if ID == get_tree().get_network_unique_id():
+		get_node("Tents/Tent").Update_Health(State["HP"])
+		return
+	
+	var Tent = get_node("Tents/PlayerMain")
+	
+	if State["HP"] <= 0:
+		Tent.queue_free()
+		return
+	
+	Tent.HEALTH = State["HP"]
+	
+
+
+

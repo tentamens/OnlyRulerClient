@@ -1,5 +1,7 @@
 extends TouchScreenButton
 
+var HEALTH = 100
+
 onready var close_popup = get_parent().get_parent().get_node("TentPopUpCanvas/ClosePopUp")
 
 

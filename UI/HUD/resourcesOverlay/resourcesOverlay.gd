@@ -3,7 +3,7 @@ extends Control
 
 func _ready():
 	$mainHB/food/FoodImage/FoodCost.text = str(Resoucres.Food)
-	$mainHB/money/MoneyImage/MoneyCost.text = str(Resoucres.Money)
+	$mainHB/money/MoneyImage/MoneyCost.text = str(Resoucres.Gold)
 
 
 func _on_foodTimer_timeout():
@@ -12,5 +12,5 @@ func _on_foodTimer_timeout():
 
 
 func _on_moneyTimer_timeout():
-	Resoucres.Money += Resoucres.Money_Increase
-	$mainHB/money/MoneyImage/MoneyCost.text = str(Resoucres.Money)
+	Resoucres.Gold += Resoucres.Gold_Increase
+	$mainHB/money/MoneyImage/MoneyCost.text = str(Resoucres.Gold)

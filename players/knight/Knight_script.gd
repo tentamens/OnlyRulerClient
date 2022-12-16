@@ -1,10 +1,10 @@
 extends KinematicBody2D
 
 onready var Master = self
-onready var animation_player = get_node("AnimationPlayer")
-onready var die_ticks = get_node("Damage_Tick")
-onready var crossair = get_node("target")
-
+onready var animation_player = $AnimationPlayer
+onready var die_ticks = $Damage_Tick
+onready var crossair = $target
+onready var External = $Clients
 
 var current_ani: int = 1
 
@@ -54,7 +54,7 @@ func UpdateData(s_data):
 	damage = s_data.Damage
 	SPEED = s_data.Speed
 	health = s_data.Health
-
+	External.DAMAGE = damage
 
 
 	animation_player.play("walking")
@@ -75,7 +75,7 @@ func DefinePlayerState():
 		return
 	elif IDEN != null:
 		var player_state = {"T": OS.get_system_time_msecs(),
-		"P": Master.global_position, "U": 1,
+		"P": Master.global_position, "U": 0,
 		"CI": get_tree().get_network_unique_id(), "IDEN": IDEN,
 		"CA": current_ani, "HP": health}
 		

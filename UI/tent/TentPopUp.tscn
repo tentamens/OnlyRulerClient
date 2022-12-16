@@ -52,6 +52,8 @@ margin_bottom = 476.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 6 )
+Knight_gold_cost = 10
+Knight_Food_cost = 15
 
 [node name="SpawnKnight" type="TextureButton" parent="Panel/HBoxContainer/Troups/GroundTroupsScroll/ScrollContainerGround"]
 margin_right = 347.0

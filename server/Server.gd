@@ -145,7 +145,8 @@ remote func Return_Hit_Data(Unit_IDE, damage_taken):
 	Project.main.Inflict_damage(Unit_IDE, damage_taken)
 
 remote func Kill_Unit(IDEN):
-	print("Sending to erase 147 server")
 	Project.main.Erase(IDEN)
 
+remote func Tent_Update(TentState, player_id):
+	Project.main.TentUpdate(TentState, player_id)
 

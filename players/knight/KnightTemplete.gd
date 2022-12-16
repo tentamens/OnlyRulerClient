@@ -12,7 +12,6 @@ func MovePlayer(new_position, MyStats):
 		player_ID = MyStats["CI"]
 		IDEN = MyStats["IDEN"]
 		get_node('KinematicBody2D/enemy').IDEN = IDEN
-		print(MyStats["IDEN"])
 
 	if HEALTH != MyStats["HP"]:
 		HEALTH = MyStats["HP"]
