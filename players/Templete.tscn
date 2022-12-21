@@ -1,0 +1,126 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://UI/HUD/move_to_buttons/target.gd" type="Script" id=1]
+[ext_resource path="res://players/archer/sprite/target.png" type="Texture" id=2]
+[ext_resource path="res://UI/tent/buttons/turn_left_vanish14.png" type="Texture" id=3]
+[ext_resource path="res://UI/hp_bar/sprites/hp_health.png" type="Texture" id=4]
+[ext_resource path="res://players/archer/sprite/invis_button.png" type="Texture" id=6]
+[ext_resource path="res://UI/hp_bar/sprites/hp_background.png" type="Texture" id=7]
+[ext_resource path="res://traps/spikes/Health.gd" type="Script" id=8]
+[ext_resource path="res://players/knight/External_Script.gd" type="Script" id=9]
+[ext_resource path="res://players/knight/Knight_script.gd" type="Script" id=10]
+
+[sub_resource type="CapsuleShape2D" id=8]
+radius = 2.83766
+height = 3.62127
+
+[sub_resource type="CapsuleShape2D" id=9]
+radius = 47.1185
+height = 94.2371
+
+[sub_resource type="CircleShape2D" id=10]
+
+[node name="COPY THE BELOW NODE" type="Node2D"]
+
+[node name="Node2D" type="KinematicBody2D" parent="." groups=["Knight"]]
+script = ExtResource( 10 )
+__meta__ = {
+"_editor_description_": "IF CHANGES ARE NEEDED IN THE SCRIPT COPY AND PASTE IN NEW SCRIPT"
+}
+Unit_ID = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D"]
+root_node = NodePath("../Sprite")
+reset_on_save = false
+__meta__ = {
+"_editor_description_": "how to set up animations :
+1. insert your name of the animations like this
+2. walking_Up
+3. walking_down
+4. walking_left
+5. walking
+6. Attacking"
+}
+
+[node name="Sprite" type="Sprite" parent="Node2D"]
+scale = Vector2( 6.52, 6.509 )
+hframes = 14
+vframes = 11
+frame = 46
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D"]
+position = Vector2( -5.23539, 90.7468 )
+rotation = 1.57745
+scale = Vector2( 8.30135, 8.30135 )
+shape = SubResource( 8 )
+
+[node name="knight" type="Area2D" parent="Node2D"]
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/knight"]
+position = Vector2( -3.49026, 12.2159 )
+shape = SubResource( 9 )
+
+[node name="Damage_Tick" type="Timer" parent="Node2D"]
+wait_time = 0.25
+
+[node name="Control" type="Control" parent="Node2D"]
+modulate = Color( 1, 1, 1, 0.427451 )
+margin_left = 12.8439
+margin_top = -15.5964
+margin_right = 52.8439
+margin_bottom = 24.4036
+rect_scale = Vector2( -0.239088, 0.27467 )
+script = ExtResource( 8 )
+
+[node name="TextureProgress" type="TextureProgress" parent="Node2D/Control"]
+margin_left = 275.396
+margin_top = -361.902
+margin_right = 403.396
+margin_bottom = -329.902
+rect_scale = Vector2( -3.08193, 3.0668 )
+value = 100.0
+texture_under = ExtResource( 7 )
+texture_progress = ExtResource( 4 )
+tint_progress = Color( 0.0352941, 1, 0.0352941, 1 )
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Node2D"]
+position = Vector2( -47.1186, -102.963 )
+scale = Vector2( 0.488637, 0.767857 )
+normal = ExtResource( 3 )
+
+[node name="target" type="Node2D" parent="Node2D"]
+z_index = 164
+script = ExtResource( 1 )
+
+[node name="Top_button" type="TouchScreenButton" parent="Node2D/target"]
+position = Vector2( -55.8442, -108.198 )
+scale = Vector2( 4.03561, 6.83804 )
+normal = ExtResource( 6 )
+
+[node name="target" type="Sprite" parent="Node2D/target"]
+visible = false
+position = Vector2( 724.229, 22.6867 )
+scale = Vector2( 5.4719, 4.7084 )
+z_index = 49
+texture = ExtResource( 2 )
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="Node2D"]
+target_desired_distance = 15.77
+path_max_distance = 10.0
+
+[node name="Hit_timer" type="Timer" parent="Node2D"]
+autostart = true
+
+[node name="Clients" type="Area2D" parent="Node2D"]
+collision_layer = 524289
+collision_mask = 524289
+script = ExtResource( 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Clients"]
+position = Vector2( 3.49026, 12.2159 )
+scale = Vector2( -15.5634, -6.27003 )
+shape = SubResource( 10 )
+
+[connection signal="pressed" from="Node2D/target/Top_button" to="Node2D/target" method="_on_Top_button_pressed"]

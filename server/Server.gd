@@ -89,8 +89,8 @@ remote func FetchToken():
 
 
 
-func FetchData(skill_name, requester):
-	
+func FetchData(skill_name, requester, hi):
+	print(hi)
 	rpc_id(1, "Fetch_Data", skill_name, requester)
 
 

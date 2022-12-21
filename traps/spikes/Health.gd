@@ -8,4 +8,3 @@ onready var health_bar = $TextureProgress
 
 func update_health(health):
 	health_bar.value = health
-

@@ -1,8 +1,11 @@
 extends KinematicBody2D
 
+
 export var Unit_ID:int
 export var hit_delay:int
-export var data_name:String
+export var data_name:String = "Catapult"
+export var ranged: bool = false
+export var Projectile: PackedScene
 
 
 onready var Master = self
@@ -53,7 +56,7 @@ var RNG = RandomNumberGenerator.new()
 
 
 func _ready():
-	print(data_name)
+	print(data_name, " AHH")
 	Server.FetchData(data_name, get_instance_id(), "HI")
 	get_node('Hit_timer').wait_time = hit_delay
 
@@ -108,30 +111,7 @@ func move_to_target(delta):
 
 
 func update_animations(direction):
-	"""	ANI 1 = WALKING LEFT
-		ANI 2 = WALKING RIGHT
-		ANI 3 = WALKING UP
-		ANI 4 = WALKING DOWN"""
-	var sprite: Sprite = get_node('Sprite')
-	if direction.y < -0.6 and current_ani != 3:
-		sprite.flip_h = false
-		animation_player.play('walking_Up')
-		current_ani = 3
-	
-	elif direction.y > 0.6 and current_ani != 4:
-		sprite.flip_h = false
-		animation_player.play('walking_down')
-		current_ani = 4
-	
-	elif direction.x < -0.5 and current_ani != 1:
-		sprite.flip_h = false
-		animation_player.play('walking')
-		current_ani = 1
-	
-	elif direction.x > 0.5 and current_ani != 2:
-		animation_player.play('walking')
-		sprite.flip_h = true
-		current_ani = 2
+	pass
 
 
 
@@ -201,10 +181,15 @@ func update_health():
 
 
 func _on_Troup_Area_area_entered(area: Area2D) -> void:
-	if area.name == "enemy":
-		
-		if !all_hiting.has(area):
-			all_hiting = {area: [damage, area.IDEN]}
 	
 	if area.name == "Gate_Wall":
 		animation_player.play("Attacking")
+
+
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == "Fire":
+		Project.main.shoot_Catapult(self.position)
+		animation_player.play("Lower")
+	if anim_name == "Lower":
+		animation_player.play("Fire")

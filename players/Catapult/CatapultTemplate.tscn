@@ -1,12 +1,11 @@
 [gd_scene load_steps=16 format=2]
 
-[ext_resource path="res://players/archer/sprite/target.png" type="Texture" id=2]
+[ext_resource path="res://players/Catapult/CatapultTemplate.gd" type="Script" id=1]
+[ext_resource path="res://players/knight/Troup_Area.gd" type="Script" id=2]
 [ext_resource path="res://players/Catapult/Sprites/Sprite_sheet_catapul.png" type="Texture" id=3]
 [ext_resource path="res://UI/hp_bar/sprites/hp_health.png" type="Texture" id=4]
 [ext_resource path="res://UI/hp_bar/sprites/hp_background.png" type="Texture" id=5]
-[ext_resource path="res://players/archer/sprite/invis_button.png" type="Texture" id=6]
 [ext_resource path="res://traps/spikes/Health.gd" type="Script" id=7]
-[ext_resource path="res://UI/HUD/move_to_buttons/target.gd" type="Script" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 
@@ -150,10 +149,13 @@ tracks/0/keys = {
 [sub_resource type="CircleShape2D" id=8]
 radius = 9.28518
 
+[sub_resource type="CircleShape2D" id=9]
+
 [node name="CatapultTemplate" type="KinematicBody2D"]
-position = Vector2( -1, 0 )
+position = Vector2( -7, -2 )
 rotation = -0.00523286
-scale = Vector2( 6.55502, 6.55502 )
+scale = Vector2( -6.555, 6.555 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [ -171.0 ],
 "_edit_vertical_guides_": [ 32.0 ]
@@ -176,23 +178,17 @@ anims/Lower = SubResource( 5 )
 anims/RESET = SubResource( 6 )
 anims/Walking = SubResource( 7 )
 
-[node name="Troup_Area" type="Area2D" parent="."]
+[node name="Enemy_Troup" type="Area2D" parent="."]
 position = Vector2( 9.0375, -7.86607 )
 scale = Vector2( 0.48759, 0.402873 )
 collision_layer = 524288
 collision_mask = 524288
+script = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Troup_Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy_Troup"]
 position = Vector2( -1.00531, 12.167 )
 scale = Vector2( 3.57482, 4.00614 )
 shape = SubResource( 8 )
-
-[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
-position = Vector2( 18.3509, -19.6303 )
-scale = Vector2( -0.651983, 0.966426 )
-normal = ExtResource( 6 )
-
-[node name="Damage_tick" type="Timer" parent="."]
 
 [node name="Control" type="Control" parent="."]
 modulate = Color( 1, 1, 1, 0.427451 )
@@ -213,46 +209,22 @@ margin_top = -1.79081
 margin_right = 99.2839
 margin_bottom = 12.0092
 rect_scale = Vector2( -0.465188, 0.462905 )
-value = 100.0
+max_value = 10.0
+value = 10.0
 texture_under = ExtResource( 5 )
 texture_progress = ExtResource( 4 )
 tint_progress = Color( 0.0352941, 1, 0.0352941, 1 )
 
-[node name="target" type="Node2D" parent="."]
-position = Vector2( 10.508, -13.7482 )
-z_index = 164
-script = ExtResource( 8 )
+[node name="enemy" type="Area2D" parent="."]
+position = Vector2( 8.38472, -2.53958 )
+scale = Vector2( 0.193394, -0.0915456 )
+collision_layer = 524288
+collision_mask = 524288
+script = ExtResource( 2 )
 
-[node name="Top_button" type="TouchScreenButton" parent="target"]
-position = Vector2( -55.3774, -111.67 )
-scale = Vector2( 4.03561, 6.83804 )
-normal = ExtResource( 6 )
-
-[node name="target" type="Sprite" parent="target"]
-visible = false
-position = Vector2( 1.9607, 9.31336 )
-scale = Vector2( 1.03793, 0.893102 )
-z_index = 49
-texture = ExtResource( 2 )
-
-[node name="Targeting_timer" type="Timer" parent="."]
-wait_time = 0.15
-one_shot = true
-
-[node name="Shoot_timer" type="Timer" parent="."]
-wait_time = 0.114
-autostart = true
-
-[node name="Movement_timer" type="Timer" parent="."]
-wait_time = 0.15
-one_shot = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy"]
+position = Vector2( -1.96071, 10.7839 )
+scale = Vector2( -11.7399, -13.6439 )
+shape = SubResource( 9 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
-[connection signal="area_entered" from="Troup_Area" to="." method="_on_Troup_Area_area_entered"]
-[connection signal="pressed" from="TouchScreenButton" to="." method="_on_TouchScreenButton_pressed"]
-[connection signal="released" from="TouchScreenButton" to="." method="_on_TouchScreenButton_released"]
-[connection signal="timeout" from="Damage_tick" to="." method="_on_Damage_tick_timeout"]
-[connection signal="pressed" from="target/Top_button" to="target" method="_on_Top_button_pressed"]
-[connection signal="timeout" from="Targeting_timer" to="." method="_on_Targeting_timer_timeout"]
-[connection signal="timeout" from="Shoot_timer" to="." method="_on_Shoot_timer_timeout"]
-[connection signal="timeout" from="Movement_timer" to="." method="_on_Movement_timer_timeout"]

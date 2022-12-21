@@ -22,7 +22,7 @@ var UnitlistUser = [
 	]
 var UnitlistEnemy = [
 	preload("res://players/knight/KnightTemplete.tscn"),
-	preload("res://players/Catapult/CatapultPlayer.tscn"),
+	preload("res://players/Catapult/CatapultTemplate.tscn"),
 	
 	]
 
